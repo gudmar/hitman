@@ -123,11 +123,24 @@ const adaptNextFunction = (nextFunction) => ({
     return toCord(value);
 }
 
-const MovingTarget = (level, parentId) => {
+const getRandomNumber = (maxValue) => {
+    const result = Math.round(Math.random() * maxValue);
+    return result
+}
+
+const MovingTarget = (gameState, parentId) => {
+    const {level, isPausedWithSubscribtion, isGameLostWithSubscribtion }=gameState;
+    const {isPaused: isPausedInitialValue, isPausedSubscribe} = isPausedWithSubscribtion
+    const { isGameLost: isGameLostInitialValue, isGameLostSubscribe} = isGameLostWithSubscribtion
+    let isPausedLocal = isPausedInitialValue;
+    let isGameLostLocal = isGameLostInitialValue;
+    isPausedSubscribe({subscribtionId: 'target', callback: (newValue) => isPausedLocal = newValue})
+    isGameLostSubscribe({subscribtionId: 'target', callback: (newValue) => isGameLostLocal = newValue})
     const definedParentId = parentId || GAME_CANVAS_ID;
     const parent = document.getElementById(definedParentId);
     const {height: parentHeight, width: parentWidth} = parent.getBoundingClientRect();
-    const target = Target(level);
+    const randomTargetType = getRandomNumber(level);
+    const target = Target(randomTargetType);
     const offsetX = getInitialX();
     let x = offsetX;
     let y = getInitialY();
@@ -137,7 +150,7 @@ const MovingTarget = (level, parentId) => {
     document.getElementById(definedParentId).append(target);
     const { height: targetHeight } = target.getBoundingClientRect();
     const isTargetCrashed = getIsTargetCrashed(targetHeight);
-    const nextXFunction = adaptNextFunction(LEVEL_TO_GET_NEXT_X_MAP[level]);
+    const nextXFunction = adaptNextFunction(LEVEL_TO_GET_NEXT_X_MAP[randomTargetType]);
     const mover = rxjs.fromEvent(document, MOVE_ALL_TARGETS_EVENT);
     const move = mover.subscribe(() => {
             y = getNextY(y);
@@ -163,6 +176,7 @@ const MovingTarget = (level, parentId) => {
     const click = rxjs.fromEvent(target, 'click')
         .pipe(rxjs.take(1))
         .subscribe(() => {
+            if (isPausedLocal || isGameLostLocal) return;
             emitEvent({ eventName: HIT_SCORE_EVENT, info: HIT_POINTS });
             move.unsubscribe();
             miss.unsubscribe();

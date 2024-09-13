@@ -53,13 +53,17 @@ const getGlobalNumberParameterHandler = ({
     parameterUpEventName,
     parameterDownEventName,
     setParameterEventName,
+    maxValue,
+    minValue,
 }) => () => {
     let parameter = startValue;
     rxjs.fromEvent(document, parameterUpEventName).subscribe(() => {
+        if (parameter === maxValue) return;
         parameter = parameter + 1;
         emitEvent({ eventName: setParameterEventName, info: parameter})
     })
     rxjs.fromEvent(document, parameterDownEventName).subscribe(() => {
+        if (parameter === minValue) return;
         parameter = parameter - 1;
         emitEvent({ eventName: setParameterEventName, info: `${parameter}` })
     })
@@ -114,6 +118,8 @@ const handleLevelGlobalState = getGlobalNumberParameterHandler({
     parameterUpEventName: LEVEL_UP_EVENT,
     parameterDownEventName: LEVEL_DOWN_EVENT,
     setParameterEventName: CURRENT_LEVEL_IS_EVENT,
+    maxValue: 7,
+    minValue: 0,
 })
 
 const handleSpeedGlobalState = getGlobalNumberParameterHandler({
@@ -121,6 +127,8 @@ const handleSpeedGlobalState = getGlobalNumberParameterHandler({
     parameterUpEventName: SPEED_UP_EVENT,
     parameterDownEventName: SPEED_DOWN_EVENT,
     setParameterEventName: CURRENT_SPEED_IS_EVENT,
+    maxValue: 8,
+    minValue: 0
 })
 
 const handlePauseGlobalState = getGlobalBooleanParameterHandler({
@@ -154,4 +162,5 @@ const StateKeeper = () => {
     )
     ScoreBar({level, speed, isPausedWithSubscribtion, isPaused: isPausedWithSubscribtion.isPaused});
     GameCanvas({parentId: ROOT_ID, gameState: state})
+    GameLost()
 }

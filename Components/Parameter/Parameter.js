@@ -15,7 +15,8 @@ const getParameter = ({parameterName, setParameterValueEventName}) => (parentId,
 
 const getSetParameter = ({
     parameterName,
-    parameterUpEventName, parameterDownEventName,
+    parameterUpEventName,
+    parameterDownEventName,
     setParameterValueEventName,
 }) => (parentId, startValue) => {
     const parameterContainer = getClassedDiv(['parameter-wrapper', 'set-parameter-wrapper']);
