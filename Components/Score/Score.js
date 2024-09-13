@@ -47,4 +47,17 @@ const Score = (parentId) => {
         caption: 'Missed',
         callback: () => emitEvent({ eventName: MISSED_SCORE_EVENT, info: MISSED_POINTS})
     })
+
+    const { button: GameLostButton } = Button({
+        parentId: SCORE_BAR_WRAPPER_ID,
+        caption: 'Lose game',
+        callback: () => emitEvent({ eventName: GAME_LOST_EVENT })
+    })
+
+    const { button: GameOverButton } = Button({
+        parentId: SCORE_BAR_WRAPPER_ID,
+        caption: 'Game over',
+        callback: () => emitEvent({ eventName: GAME_OVER_EVENT, detail: currentPoints})
+    })
+
 }
