@@ -1,0 +1,17 @@
+.score-wrapper {
+    color: yellow;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 900;
+    font-size: 1.4rem;
+}
+
+.score-wrapper::before {
+    content: 'Score: ';
+    font-weight: 500;
+    font-size: 1.4rem;
+    color: lightgreen
+}
+
+.score-alert {
+    color: red;
+}

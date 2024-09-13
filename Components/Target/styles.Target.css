@@ -1,0 +1,69 @@
+.target {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    position: absolute;
+    cursor: pointer;
+    
+}
+
+.target-1 {
+    background-color: goldenrod;
+    box-shadow: inset 0px 0px 8px 0px rgba(10, 27, 49, 1);
+    transition-duration: 0.1s;
+}
+
+.target-2 {
+    background-color: red;
+    box-shadow: inset 0px 0px 8px 0px rgba(10, 27, 49, 1);
+}
+
+
+.target-3 {
+    background-color: royalblue;
+    box-shadow: inset 0px 0px 8px 0px rgba(10, 27, 49, 1);
+}
+
+/* atan */
+.target-4 {
+    background-color: darkblue;
+    box-shadow: inset 0px 0px 8px 0px rgba(210, 227, 249, 1);
+    
+}
+
+/* square */
+.target-5 {
+    background-color: darkgreen;
+    box-shadow: inset 0px 0px 8px 0px rgba(210, 227, 249, 1);
+    transition-duration: 0.1s;
+}
+
+/* saw */
+.target-6 {
+    background-color: darkred;
+    box-shadow: inset 0px 0px 8px 0px rgba(210, 227, 249, 1);
+}
+
+/* small sin */
+.target-7 {
+    background-color: darkgray;
+    box-shadow: inset 0px 0px 8px 0px rgba(210, 227, 249, 1);
+}
+
+/* fast sin */
+.target-8 {
+    background-color: blueviolet;
+    box-shadow: inset 0px 0px 8px 0px rgba(210, 227, 249, 1);
+    
+}
+
+/* random */
+.target-9 {
+    background-color: brown;
+    box-shadow: inset 0px 0px 8px 0px rgba(210, 227, 249, 1);
+    transition-duration: 0.1s;
+}

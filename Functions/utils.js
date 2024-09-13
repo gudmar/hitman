@@ -1,0 +1,1 @@
+const getUuid = () => Math.random();

@@ -1,0 +1,23 @@
+.parameter-wrapper {
+    display: flex;
+    color: yellow;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 900;
+    font-size: 1.4rem;
+}
+
+.set-parameter-wrapper {
+    font-size: 2rem;
+}
+.set-parameter-wrapper::before{
+    font-size: 2rem;
+}
+
+.parameter-green {
+    color: lightgreen;
+    padding-right: 1rem;
+}
+.parameter-buttons {
+    display: inline-flex;
+    flex-direction: column;
+}

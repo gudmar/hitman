@@ -1,0 +1,20 @@
+.score-bar-wrapper {
+    border-bottom: solid thin orange;
+    padding-bottom: 1rem;
+}
+
+.score-bar-objectives {
+    color: yellow;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    /* font-weight: bolder; */
+    font-size: 1.2rem;
+}
+
+.score-bar-title {
+    color: red;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-weight: bold;
+    font-size: 3rem;
+}

@@ -1,0 +1,6 @@
+.game-canvas {
+    width: 95vw;
+    height: 60vh;
+    border: orange solid thin;
+    margin-top: 1rem;
+}

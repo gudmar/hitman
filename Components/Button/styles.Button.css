@@ -1,0 +1,60 @@
+.button {
+    color: white;
+    /* border: solid white thin; */
+    border-radius: 0.5rem;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: blue;
+    padding: 0.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-items: center;
+    cursor: pointer;
+    font-size: 1rem;
+    min-width: 1.2rem;
+    min-height: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    box-shadow: inset 0px 0px 8px 0px rgba(210, 227, 249, 1);
+}
+.button:hover {
+    background-color: darkBlue;
+}
+.button:active {
+    background-color: black;
+}
+.button-text {
+    background-color: transparent;
+    border: none;
+}
+.disabled-button-outlined {
+    background-color: gray;
+    color: lightgray;
+    cursor: not-allowed;
+}
+.disabled-button-text {
+    background-color: transparent;
+    color: gray;
+    cursor: not-allowed;
+}
+.disabled-button-text:hover {
+    background-color: transparent;
+}
+
+.disabled-button-outlined:hover {
+    background-color: transparent;
+}
+.disabled-button-text:active {
+    background-color: transparent;
+}
+
+.disabled-button-outlined:active {
+    background-color: transparent;
+}
+
+.button-tiny {
+    font-size: 1rem;
+    padding: 0;
+    box-shadow: none;
+}
