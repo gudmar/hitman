@@ -9,10 +9,9 @@ const Clock = ({ parentId, subscribeToPause, isPausedStartValue }) => {
 
     subscribeToPause({subscribtionId: 'clock', callback: (newValue) => isPaused = newValue})
     const clock = rxjs.interval(TIK)
-    clock
+    const subscribedClock = clock
         .pipe(
             rxjs.filter((v) => {
-                // console.log('v', v)
                 const result = isClockStarted && !isPaused && v%250 === 0;
                 return result;
             }),
@@ -21,11 +20,12 @@ const Clock = ({ parentId, subscribeToPause, isPausedStartValue }) => {
         .subscribe({
             next: (accTime) => {
                 const timeLeft = GAME_OVER_TIME_S - accTime / MS_IN_S;
-                if (timeLeft < 0) return;
+                if (timeLeft < 0) {
+                    emitEvent({ eventName: GAME_OVER_EVENT});
+                    updateClock(0);
+                    subscribedClock.unsubscribe();
+                };
                 updateClock(timeLeft);
-                if (accTime > GAME_OVER_TIME_S * MS_IN_S) {
-                    emitEvent({ eventName: GAME_OVER_TIME_EVENT});
-                }
             },
         })
     clock.pipe(
@@ -33,28 +33,20 @@ const Clock = ({ parentId, subscribeToPause, isPausedStartValue }) => {
         rxjs.scan((acc, t) => { const newAcc = acc + 1; return newAcc})
     ).subscribe((t) => {
         emitEvent({eventName: CLOCK_TICK_EVENT, info: t})
-        // console.log('Emiting event ', t) WORKS
     })
-
-    // rxjs.fromEvent(document, CLOCK_TICK_EVENT).subscribe((v) => console.log('Clock tick', v.detail))
 
     const onClockStart = rxjs.fromEvent(document, START_GAME_EVENT)
         .pipe(rxjs.take(1))
         .subscribe(() => {
-            console.log('Starting game')
             isClockStarted = true;
         });
-    
-    const onEndGame = rxjs.fromEvent(document, GAME_OVER_TIME_EVENT)
-        .pipe(rxjs.take(1))
-        .subscribe({
-            next: () => {
-                updateClock(0);
-                clock.unsubscribe();
-                emitEvent({
-                    eventName: GAME_OVER_EVENT,
-                })
-            }
-    })
     const onPause = rxjs.fromEvent(document, PAUSE_GAME_EVENT).subscribe(() => isPaused = !isPaused)
+    const onGameLost = rxjs.fromEvent(document, GAME_LOST_EVENT).pipe(
+        rxjs.take(1)
+    ).subscribe(() => {
+        subscribedClock.unsubscribe();
+        onGameLost.unsubscribe();
+        onClockStart.unsubscribe();
+        onPause.unsubscribe();
+    })
 }

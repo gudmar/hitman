@@ -5,7 +5,22 @@ const Score = (parentId) => {
         scoreContainer.innerText = newValue;
     }
     updateScore(STARTING_POINTS)
-    const onScoreChange = rxjs.fromEvent(document, UPDATE_SCORE_EVENT)
+
+
+    const addHitPoints = rxjs.fromEvent(document, HIT_SCORE_EVENT)
+        .subscribe((event) => {
+            const points = event.detail;
+            emitEvent({ eventName: UPDATE_SCORE_EVENT, info: points })
+        })
+
+    const missedHitPoints = rxjs.fromEvent(document, MISSED_SCORE_EVENT)
+        .subscribe((event) => {
+            const points = event.detail;
+            
+            
+            emitEvent({ eventName: UPDATE_SCORE_EVENT, info: points })
+        })
+        const onScoreChange = rxjs.fromEvent(document, UPDATE_SCORE_EVENT)
         .subscribe({
             next: (event) => {
                 const pointsProposal = currentPoints + event.detail;
@@ -17,24 +32,23 @@ const Score = (parentId) => {
                 if (currentPoints > LOW_POINTS_ALERT) {
                     scoreContainer.classList.remove('score-alert')
                 }
-                if (currentPoints <= 0) emitEvent({eventName: GAME_LOST_EVENT})
+                if (currentPoints <= 0) {
+                    emitEvent({eventName: GAME_LOST_EVENT})
+                    onScoreChange.unsubscribe();
+                    addHitPoints.unsubscribe();
+                    missedHitPoints.unsubscribe();
+                }
             }
         });
 
-    const addHitPoints = rxjs.fromEvent(document, HIT_SCORE_EVENT)
-        .subscribe((event) => {
-            console.log('HIT');
-            const points = event.detail;
-            emitEvent({ eventName: UPDATE_SCORE_EVENT, info: points })
+    const onGalmeOver = rxjs.fromEvent(document, GAME_OVER_EVENT)
+        .subscribe(() => {
+            onGalmeOver.unsubscribe();
+            onScoreChange.unsubscribe();
+            addHitPoints.unsubscribe();
+            missedHitPoints.unsubscribe();
         })
-    const missedHitPoints = rxjs.fromEvent(document, MISSED_SCORE_EVENT)
-        .subscribe((event) => {
-            console.log('Missed');
-            const points = event.detail;
-            
-            
-            emitEvent({ eventName: UPDATE_SCORE_EVENT, info: points })
-        })
+
 
     const { button: HitButton } = Button({
         parentId: SCORE_BAR_WRAPPER_ID,

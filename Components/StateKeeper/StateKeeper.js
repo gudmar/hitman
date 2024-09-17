@@ -1,13 +1,3 @@
-// const levelUp = () => {
-//     emitEvent({ eventName: LEVEL_UP_EVENT })
-// }
-// const levelDown = () => {
-//     emitEvent({ eventName: LEVEL_DOWN_EVENT})
-// }
-// const setLevel = (newLevel) => {
-//     emitEvent({ eventName: CURRENT_LEVEL_IS_EVENT, info: newLevel})
-// }
-
 const getParameterSetters = ({
     parameterUpEventName,
     parameterDownEventName,
