@@ -183,4 +183,16 @@ const MovingTarget = (gameState, parentId) => {
             click.unsubscribe();
             target.remove();
         })
+
+    const endSubscribtions = () => {
+        click.unsubscribe(); miss.unsubscribe(); move.unsubscribe();
+    }
+    const onGameLost = rxjs.fromEvent(document, GAME_LOST_EVENT).subscribe(() => {
+        endSubscribtions(); 
+        onGameLost.unsubscribe()
+    })
+    const onGameOver = rxjs.fromEvent(document, GAME_OVER_EVENT).subscribe(() => {
+        endSubscribtions();
+        onGameOver.unsubscribe();
+    })
 }

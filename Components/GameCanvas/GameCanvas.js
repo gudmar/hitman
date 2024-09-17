@@ -38,7 +38,7 @@ const EmitTarget = (gameState) => {
     let createTargets = getCreateTargets(gameState);
     let endTargetCreation = setCreateTarget(gameState);
     let localSpeed = speed;
-    rxjs.fromEvent(document, CURRENT_LEVEL_IS_EVENT)
+    const setCurrentLevel = rxjs.fromEvent(document, CURRENT_LEVEL_IS_EVENT)
         .subscribe(({detail}) => {
             createTargets = getCreateTargets({...gameState, level: detail });
             endLocalClock();
@@ -48,7 +48,7 @@ const EmitTarget = (gameState) => {
                 emitEvent({eventName: MOVE_ALL_TARGETS_EVENT})
             });        
         })
-    rxjs.fromEvent(document, CURRENT_SPEED_IS_EVENT)
+    const setCurrentSpeed = rxjs.fromEvent(document, CURRENT_SPEED_IS_EVENT)
         .subscribe(({detail}) => {
             endLocalClock();
             localSpeed = detail;
@@ -56,6 +56,13 @@ const EmitTarget = (gameState) => {
                 emitEvent({eventName: MOVE_ALL_TARGETS_EVENT})
             });        
         })
+
+    const endTargetEmit = () => {
+        setCurrentSpeed.unsubscribe();
+        setCurrentLevel.unsubscribe();
+        endTargetCreation();
+    }
+    return endTargetEmit;
 }
 
 const GameCanvas = ({
@@ -64,14 +71,45 @@ const GameCanvas = ({
 }) => {
     let isGameRunning = false;
     let isGameOver = false;
+    let isGameLost = false;
     const canvas = addDivToId(parentId);
     canvas.classList.add('game-canvas');
     canvas.id = GAME_CANVAS_ID;
-    rxjs.fromEvent(document, START_GAME_EVENT).subscribe(() => isGameRunning = true);
-    rxjs.fromEvent(document, PAUSE_GAME_EVENT).subscribe(() => isGameRunning = false)
-    rxjs.fromEvent(document, GAME_OVER_TIME_EVENT).subscribe(() => {
+    const onGameStart = rxjs.fromEvent(document, START_GAME_EVENT).subscribe(() => isGameRunning = true);
+    const onGamePause = rxjs.fromEvent(document, PAUSE_GAME_EVENT).subscribe(() => isGameRunning = false)
+    const endEmitTarget = EmitTarget(gameState);
+    const onGameOver = rxjs.fromEvent(document, GAME_OVER_EVENT).subscribe(() => {
         isGameRunning = false;
         isGameOver = true;
+        onGameStart.unsubscribe();
+        onGamePause.unsubscribe();
+        onGameOver.unsubscribe();
+        endEmitTarget();
     });
-    EmitTarget(gameState);
+    const onGameLost = rxjs.fromEvent(document, GAME_LOST_EVENT).subscribe(() => {
+        isGameOver = true;
+        isGameRunning = false;
+        isGameLost = true;
+        onGameStart.unsubscribe();
+        onGamePause.unsubscribe();
+        onGameOver.unsubscribe();
+        onGameLost.unsubscribe();
+        endEmitTarget();
+    })
+    
 }
+
+const endSubscribtions = () => {
+    setLocalClock.unsubscribe();
+    setCreateTarget.unsubscribe();
+    getCreateTargets().unsubscribe();
+}
+const onGameLost = rxjs.fromEvent(document, GAME_LOST_EVENT).subscribe(() => {
+    endSubscribtions();
+    onGameLost.unsubscribe();
+})
+const onGameOver = rxjs.fromEvent(document, GAME_OVER_EVENT).subscribe(() => {
+    endSubscribtions();
+    onGameLost.unsubscribe();
+    onGameOver.unsubscribe();
+})
