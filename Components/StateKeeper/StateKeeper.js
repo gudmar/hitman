@@ -49,12 +49,12 @@ const getGlobalNumberParameterHandler = ({
     let parameter = startValue;
     rxjs.fromEvent(document, parameterUpEventName).subscribe(() => {
         if (parameter === maxValue) return;
-        parameter = parameter + 1;
+        parameter = +parameter + 1;
         emitEvent({ eventName: setParameterEventName, info: parameter})
     })
     rxjs.fromEvent(document, parameterDownEventName).subscribe(() => {
         if (parameter === minValue) return;
-        parameter = parameter - 1;
+        parameter = +parameter - 1;
         emitEvent({ eventName: setParameterEventName, info: `${parameter}` })
     })
     rxjs.fromEvent(document, setParameterEventName).subscribe((e) => {

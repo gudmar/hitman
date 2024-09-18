@@ -5,8 +5,8 @@ const HIT_POINTS = 10;
 const MISSED_POINTS = -100;
 const GAME_OVER_TIME_S = 60;
 const ALERT_TIME = 10;
-const START_LEVEL = 1;
-const START_SPEED = 1;
+const START_LEVEL = 0;
+const START_SPEED = 0;
 const CREATE_TARGET_INTERVAL = 1000;
 
 const MAX_LEVEL = 7;
@@ -25,7 +25,9 @@ const TIK = 1;
 // IDs
 const ROOT_ID = 'root-id'
 const SCORE_BAR_WRAPPER_ID = 'score-bar-wrapper-id'
+const SCORE_BAR_CONTAINER_ID = 'score-bar-container-id'
 const GAME_CANVAS_ID = 'game-canvas-id'
+const GAME_START_HORIZONTAL_ID = 'game-start-horizontal-id'
 
 const OBSERVABLES_ID = 'observables'
 const OBSERVABLES_NEW_ID = 'observables with new'
