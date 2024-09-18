@@ -60,6 +60,7 @@ const EmitTarget = (gameState) => {
     const endTargetEmit = () => {
         setCurrentSpeed.unsubscribe();
         setCurrentLevel.unsubscribe();
+        endLocalClock();
         endTargetCreation();
     }
     return endTargetEmit;
@@ -100,8 +101,6 @@ const GameCanvas = ({
 }
 
 const endSubscribtions = () => {
-    setLocalClock.unsubscribe();
-    setCreateTarget.unsubscribe();
     getCreateTargets().unsubscribe();
 }
 const onGameLost = rxjs.fromEvent(document, GAME_LOST_EVENT).subscribe(() => {

@@ -14,7 +14,6 @@
 .target-1 {
     background-color: goldenrod;
     box-shadow: inset 0px 0px 8px 0px rgba(10, 27, 49, 1);
-    transition-duration: 0.1s;
 }
 
 .target-2 {
@@ -39,7 +38,11 @@
 .target-5 {
     background-color: darkgreen;
     box-shadow: inset 0px 0px 8px 0px rgba(210, 227, 249, 1);
-    transition-duration: 0.1s;
+    transition: all 0s ease; /* Bug in chromium  90.0.4430.72 */
+    -o-transition       : all 0.1s ease;
+    -moz-transition     : all 0.1s ease;
+    /* -webkit-transition  : all 0.1s ease; */
+    /* transition-duration: 0.1s; */
 }
 
 /* saw */
@@ -65,5 +68,5 @@
 .target-9 {
     background-color: brown;
     box-shadow: inset 0px 0px 8px 0px rgba(210, 227, 249, 1);
-    transition-duration: 0.1s;
+    /* transition-duration: 0.1s; */
 }

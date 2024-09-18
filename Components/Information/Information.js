@@ -1,4 +1,4 @@
-const Information = ( message, parentId ) => {
+const Information = ( message, parentId, additionalInfo ) => {
     const definedParentId = parentId || ROOT_ID;
     const infoContainer = addClassedDiv(definedParentId, 'information-container');
     const messageContainer = document.createElement('div');
@@ -8,6 +8,13 @@ const Information = ( message, parentId ) => {
     messageContainer.innerText = message;
     subMessageContainer.innerHTML = '<span>Hit <span class="information-shout">F5</span> to restart</span>'
     infoContainer.append(messageContainer);
+
+    if (additionalInfo) {
+        const additionalInfoContainer = addClassedDiv(definedParentId, 'information-additional');
+        additionalInfoContainer.innerHTML = additionalInfo;
+        infoContainer.append(additionalInfoContainer)
+    }
+
     infoContainer.append(subMessageContainer);
     const onClick = rxjs.fromEvent(closeButton, 'click').pipe(rxjs.take(1)).subscribe({
         next: () => {

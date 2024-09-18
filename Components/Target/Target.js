@@ -1,5 +1,5 @@
 const Target = (level) => {
-    if (level < 0 || level > 7) throw new Error('Level should be in range [0..9]')
+    if (level < 0 || level > 8) throw new Error('Level should be in range [0..9]')
     const target = document.createElement('div');
     target.classList.add('target');
     target.classList.add(`target-${level + 1}`);
@@ -140,7 +140,9 @@ const MovingTarget = (gameState, parentId) => {
     const parent = document.getElementById(definedParentId);
     const {height: parentHeight, width: parentWidth} = parent.getBoundingClientRect();
     const randomTargetType = getRandomNumber(level);
+    // const randomTargetType = 4;//8
     const target = Target(randomTargetType);
+    
     const offsetX = getInitialX();
     let x = offsetX;
     let y = getInitialY();
@@ -162,6 +164,7 @@ const MovingTarget = (gameState, parentId) => {
                 maxHeight: parentHeight,
                 maxWidth: parentWidth,
             });
+            console.log('y',y)
             target.style.top = y.px;
             target.style.left = x.px;
         })

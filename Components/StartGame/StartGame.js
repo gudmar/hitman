@@ -1,16 +1,19 @@
 const StartGame = ({unmount, state}) => {
-    const containerId = 'start-game-container';
-    const container = document.createElement('div');
-    container.id = containerId;
-    container.classList.add('start-game-wrapper');
-    container.id = containerId;
+    const wrapperId = 'start-game-wrapper';
+    const wrapper = document.createElement('div');
+    wrapper.id = wrapperId;
+    wrapper.classList.add('start-game-wrapper');
+    wrapper.id = wrapperId;
     const thisUnmount = unmount || (() => {});
-    const header = getClassedDiv(containerId, 'start-game-header');
+    const header = getClassedDiv(wrapperId, 'start-game-header');
+    const horizontalContainer = getClassedDiv(wrapperId, 'horizontal-container')
+    horizontalContainer.id = GAME_START_HORIZONTAL_ID;
     header.innerText = 'Game settings'
-    const setLevelComponent = SetLevel(containerId, state.level);
-    const setSpeedComponent = SetSpeed(containerId, state.speed);
-    const buttons = getClassedDiv(containerId, 'start-game-buttons');
-    const buttonsId = containerId + buttons
+    
+    const setLevelComponent = SetLevel(wrapperId+'level', state.level);
+    const setSpeedComponent = SetSpeed(wrapperId+'speed', state.speed);
+    const buttons = getClassedDiv(wrapperId, 'start-game-buttons');
+    const buttonsId = wrapperId + buttons
     buttons.id = buttonsId
     const { button } = Button({
         caption: 'Start game',
@@ -20,9 +23,10 @@ const StartGame = ({unmount, state}) => {
         }
     })
     buttons.append(button);
-    container.append(header)
-    container.append(setLevelComponent)
-    container.append(setSpeedComponent)
-    container.append(button);
-    return container;
+    wrapper.append(header)
+    wrapper.append(horizontalContainer)
+    horizontalContainer.append(setLevelComponent)
+    horizontalContainer.append(setSpeedComponent)
+    wrapper.append(button);
+    return wrapper;
 }
